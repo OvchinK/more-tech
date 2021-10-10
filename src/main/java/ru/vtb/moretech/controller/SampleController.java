@@ -1,0 +1,33 @@
+package ru.vtb.moretech.controller;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.vtb.moretech.model.data.Sample;
+import ru.vtb.moretech.repository.SampleRepository;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+public class SampleController {
+
+    private final SampleRepository repository;
+
+    @ApiOperation(value = "Получение всех сэмлов")
+    @GetMapping("/get-all-samples")
+    public List<Sample> getAllSamples(@RequestHeader String sessionKey) {
+        return repository.getAllSamples();
+    }
+
+    @ApiOperation(value = "Получение сэмплов по названию таблицы")
+    @GetMapping("/get-sample")
+    public Sample getSample(@RequestHeader String sessionKey, @RequestParam @ApiParam("Название таблицы") String tableName) {
+        return repository.getSample(tableName);
+    }
+
+}
